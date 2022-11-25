@@ -4,14 +4,16 @@ MDFloatLayout:
         text_color_active: "lightgrey"
     
         MDBottomNavigationItem:
+            id: onglet1
             name: "Bots"
             text: "Bots"
-            icon: "android"
+            icon: "robot-happy-outline"
                 
             AnchorLayout:
                 id: bot
     
         MDBottomNavigationItem:
+            id: onglet2
             name: "Add-Bots"
             text: "Add-Bots"
             icon: "database-edit"
@@ -80,6 +82,7 @@ MDFloatLayout:
                 text: "Add New Prefix"
                 on_press: app.press("change_prefix")
         MDBottomNavigationItem:
+            id: onglet3
             name: "Change-Lang"
             text: "Change-Lang"
             icon: "earth"
