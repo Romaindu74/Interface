@@ -20,6 +20,8 @@ MDFloatLayout:
                 pos_hint: {"center_x":.5,"center_y":.75}
                 icon: "plus"
                 on_press: app.press("add",root.ids.prefix.text)
+                theme_text_color: "Custom"
+                text_color: app.theme_cls.primary_color
                     
             MDTextField:
                 hint_text: "Enter Prefix"

@@ -12,12 +12,12 @@ class DataBase:
         row = self.cursor.fetchall()
         return row
 
-    def insert(self,prefixe,name,id,status,ping,joue,ligne,next,token):
+    def insert(self,prefixe,name,id,status,ping,joue,ligne,next,token) -> None:
         self.id = len(self.fetch_all())
         self.cursor.execute("insert into Data values(?,?,?,?,?,?,?,?,?,?)",(self.id,prefixe,name,id,status,ping,joue,ligne,next,token,))
         self.connect.commit()
 
-    def delete(self,what_delete,app,x=None):
+    def delete(self,what_delete,app,x=None) -> None:
         if what_delete == "last_row":
             if len(app.row_data) >= 1:
                 app.remove_row(app.row_data[-1])
@@ -35,11 +35,11 @@ class DataBase:
                 self.connect.commit()
                 self.update_id()
 
-    def update(self,id,new_value):
+    def update(self,id,new_value) -> None:
         self.cursor.execute("update Data set prefixe=? where id_bot=?",(new_value,id,))
         self.connect.commit()
 
-    def update_id(self):
+    def update_id(self) -> None:
         for i,x in zip(range(len(self.fetch_all())),self.fetch_all()):
             self.cursor.execute("update Data set id=? where id_bot=?",(i,x[3],))
             self.connect.commit()

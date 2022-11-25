@@ -32,7 +32,7 @@ class MainApp(MDApp,Screen):
 
         return self.screen
 
-    def create_data_table(self):
+    def create_data_table(self) -> None:
         # Crée la Data Table de la premiere page
         #[("ID",5),("Prefixe",20),("Bots",40),("ID_Bots",75),("Status",30),("Ping",15),("Joue à",30),("En Ligne",25),("Next Status",30),("Token",100)]
         self.data_tables = MDDataTable(size_hint=(.9,.7), elevation=3, rows_num=20,column_data=[("ID",5),("Prefixe",40),("Bots",40),("ID_Bots",75),("Status",30),("Ping",15),("Joue à",30),("En Ligne",25),("Next Status",30)],row_data=self.values_data_table)
@@ -45,7 +45,7 @@ class MainApp(MDApp,Screen):
         self.data_tables.bind(on_row_press=self.open_dialog)
         self.app_screen.ids.bot.add_widget(self.data_tables)
 
-    def press(self,x,prefix=None):
+    def press(self,x,prefix=None) -> None:
         if x == "add":
             # Bouton ajouter un bot
             self.db.insert(prefix,self.app_screen.ids.name.text,self.app_screen.ids.id.text,"status","ping","Joue à","En ligne","Next Status",self.app_screen.ids["token"].text)
@@ -53,6 +53,7 @@ class MainApp(MDApp,Screen):
             self.data_tables.row_data = (self.get_all_data())
             for i in ["id","name","prefix","token"]:
                 self.app_screen.ids[i].text = ""
+
         elif x == "delete-all":
             # Bouton tous supprimer
             self.db.delete("all_row",self.data_tables)
@@ -72,7 +73,7 @@ class MainApp(MDApp,Screen):
             self.db.update(self.app_screen.ids["id_change"].text,self.app_screen.ids["prefix_change"].text)
             self.data_tables.row_data = (self.get_all_data())
 
-    def change_language(self,language):
+    def change_language(self,language) -> None:
         if language == "francais":
             for id,text in zip(["prefix","name","id","token","id_delete","prefix_change"],["Entrer un préfixe","Entrer un nom","Entrer un ID","Entrer un token","Entrer un ID pour supprimer","Entrer un ID","Entrer un nouveau prefixe"]):
                 self.app_screen.ids[id].hint_text = text
@@ -89,12 +90,7 @@ class MainApp(MDApp,Screen):
             for id,text in zip(["fr","an","po","new_prefixe","remove_id","remove_all"],["Francês","Inglês","Português","Adicionar novo prefixo","Excluir com id","Excluir todas as linhas"]):
                 self.app_screen.ids[id].text = text
 
-        elif language == "anglais":
-            pass
-        elif language == "portugais":
-            pass
-
-    def open_dialog(self,table,row):
+    def open_dialog(self,table,row) -> None:
         # Ouvre le dialog
         start_index, end_index = row.table.recycle_data[row.index]["range"]
         if start_index == 0:
@@ -106,15 +102,16 @@ class MainApp(MDApp,Screen):
         self.dialog = MDDialog(title="Config Bots",text=f"Prefixe : {self.db.fetch_all()[index][1]}\nName : {self.db.fetch_all()[index][2]}\nID : {self.db.fetch_all()[index][3]}\nStatus : {self.db.fetch_all()[index][4]}\nPing : {self.db.fetch_all()[index][5]}\nJoue à : {self.db.fetch_all()[index][6]}\nEn ligne : {self.db.fetch_all()[index][7]}\nNext Status : {self.db.fetch_all()[index][8]}",buttons=[MDRectangleFlatButton(text="Close", on_press=self.close_dialog,),MDRectangleFlatButton(text="Start",on_press=self.start_bot)])
         self.dialog.open()
 
-    def close_dialog(self,instance):
+    def close_dialog(self,instance) -> None:
         # Ferme la boite de dialog
         self.dialog.dismiss()
 
     def start_bot(self,instance):
         # Demarre le bot
+        instance.text = "Stop"
         pass
 
-    def get_all_data(self):
+    def get_all_data(self) -> list[list[str,...]]:
         data = []
         for i in self.db.fetch_all():
             x = list(i)
