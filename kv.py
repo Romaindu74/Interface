@@ -1,4 +1,4 @@
-KV = """
+KV: str = """
 MDFloatLayout:
     MDBottomNavigation:
         text_color_active: "lightgrey"
